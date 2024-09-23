@@ -1,0 +1,36 @@
+C#
+// C# exemplo, utilizando a biblioteca System.Threading
+using System.Threading;
+
+public class HorarioDisponivelThread
+{
+    private readonly List<Medico> medicos;
+    private readonly DateTime dataConsulta;
+    private readonly TimeSpan duracaoConsulta;
+    private readonly AutoResetEvent evento;
+
+    public HorarioDisponivelThread(List<Medico> medicos, DateTime dataConsulta, TimeSpan duracaoConsulta, AutoResetEvent evento)
+    {
+        this.medicos = medicos;
+        this.dataConsulta = dataConsulta;
+        this.duracaoConsulta = duracaoConsulta;
+        this.evento = evento;
+    }
+
+    public void Run()
+    {
+        // Lógica para verificar a disponibilidade de horários em paralelo para cada médico
+        foreach (var medico in medicos)
+        {
+            // Verifica se o horário está disponível na agenda do médico
+            bool estaDisponivel = medico.VerificarDisponibilidade(dataConsulta, duracaoConsulta);
+
+            // Adiciona o resultado a uma lista ou dicionário compartilhado
+            // ...
+
+        }
+
+        // Sinaliza que a tarefa foi concluída
+        evento.Set();
+    }
+}
